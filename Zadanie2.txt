@@ -1,0 +1,57 @@
+//Czêœæ 1 zadania 2
+import os
+
+nazwa = input("Podaj nazwê pliku lub katalogu: ")
+
+//Czêœæ 1.1 zadania 2
+if not os.path.exists(nazwa):
+    print("Plik nie istnieje")
+
+//Czêœæ 1.2 zadania 2
+elif os.path.isdir(nazwa):
+    print("Plik istnieje i jest katalogiem")
+
+//Czêœæ 1.3 zadania 3
+elif os.path.isfile(nazwa):
+    print("Plik istnieje i jest plikiem zwyk³ym")
+else:
+    print("Plik istnieje, ale nie jest ani katalogiem, ani plikiem zwyk³ym")
+
+//Czêœæ 2 zadania 2
+import os
+
+nazwa = input("Podaj nazwê zbioru: ")
+
+//Czêœæ 2.1 zadania 2
+if not os.path.exists(nazwa):
+    print("Zbiór nie istnieje")
+
+//Czêœæ 2.3 zadania 2
+elif os.path.isdir(nazwa):
+    print("Zbiór jest katalogiem")
+
+//Czêœæ 2.4 zadania 2
+elif not os.access(nazwa, os.R_OK):
+    print("Zbiór nie mo¿na czytaæ")
+
+//Czêœæ 2.2 zadania 2
+elif os.path.isfile(nazwa):
+    print("Zawartoœæ pliku:")
+    with open(nazwa, 'r', encoding='utf-8') as f:
+        print(f.read())
+else:
+    print("Zbiór istnieje, ale nie jest ani plikiem zwyk³ym, ani katalogiem")
+
+//Czêœæ 3 zadania 2
+import os
+import subprocess
+
+nazwa = input("Podaj nazwê pliku do uruchomienia: ")
+
+if os.path.isfile(nazwa) and os.access(nazwa, os.X_OK):
+    # uruchomienie programu
+    proces = subprocess.run([nazwa])
+    print(f"Program zakoñczy³ siê kodem wyjœcia: {proces.returncode}")
+else:
+    print("Plik nie jest zwyk³ym plikiem wykonywalnym")
+
