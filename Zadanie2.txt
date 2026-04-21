@@ -1,0 +1,39 @@
+#!/bin/bash
+
+read ZMIENNA
+
+if [ ! -e "$ZMIENNA" ]; then
+    echo "plik nie istnieje"
+elif [ -d "$ZMIENNA" ]; then
+    echo "plik istnieje i jest katalogiem"
+elif [ -f "$ZMIENNA" ]; then
+    echo "plik istnieje i jest plikiem zwyk³ym"
+fi
+
+#!/bin/bash
+
+read NAZWA
+
+if [ ! -e "$NAZWA" ]; then
+    echo "zbiór nie istnieje"
+elif [ -d "$NAZWA" ]; then
+    echo "zbiór jest katalogiem"
+elif [ -f "$NAZWA" ]; then
+    if [ -r "$NAZWA" ]; then
+        cat "$NAZWA"
+    else
+        echo "brak prawa do odczytu"
+    fi
+fi
+
+#!/bin/bash
+
+read PLIK
+
+if [ -f "$PLIK" ] && [ -x "$PLIK" ]; then
+    "$PLIK"
+    echo "Kod wyjœcia: $?"
+else
+    echo "plik nie jest wykonywalny lub nie jest plikiem zwyk³ym"
+fi
+
