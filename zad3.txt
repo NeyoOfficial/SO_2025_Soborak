@@ -1,0 +1,85 @@
+link do repozytorium - https://github.com/NeyoOfficial/SO_2025_Soborak.git
+
+#!/bin/bash
+
+echo "======================================"
+echo "ZADANIA - SKRYPT BASH (ALL IN ONE)"
+echo "======================================"
+echo "1) Powłoki i liczba użytkowników"
+echo "2) Argumenty skryptu (ile + pierwsze 3)"
+echo "3) 3 argumenty - łączenie plików"
+echo "4) 1 argument - analiza katalogu"
+echo "======================================"
+
+read -p "Wybierz zadanie (1-4): " OPCJA
+
+echo ""
+
+case "$OPCJA" in
+
+1)
+    echo "=== LICZBA UŻYTKOWNIKÓW DLA POWŁOK ==="
+    cut -d: -f7 /etc/passwd | sort | uniq -c
+    ;;
+
+2)
+    echo "=== ARGUMENTY SKRYPTU ==="
+
+    echo "Podaj argumenty (oddzielone spacją):"
+    read -a ARG
+
+    echo "Liczba argumentów: ${#ARG[@]}"
+
+    if [ ${#ARG[@]} -gt 2 ]; then
+        echo "Pierwsze trzy argumenty:"
+        echo "1: ${ARG[0]}"
+        echo "2: ${ARG[1]}"
+        echo "3: ${ARG[2]}"
+    fi
+    ;;
+
+3)
+    echo "=== ŁĄCZENIE DWÓCH PLIKÓW ==="
+
+    read -p "Plik 1: " P1
+    read -p "Plik 2: " P2
+    read -p "Plik wynikowy: " P3
+
+    if [ -f "$P1" ] && [ -r "$P1" ] && [ -f "$P2" ] && [ -r "$P2" ]; then
+
+        if [ -e "$P3" ]; then
+            echo "Plik wynikowy już istnieje!"
+        else
+            cat "$P1" "$P2" > "$P3"
+            echo "Utworzono plik: $P3"
+        fi
+
+    else
+        echo "Błąd: pliki 1 i 2 muszą istnieć i być czytelne"
+    fi
+    ;;
+
+4)
+    echo "=== ANALIZA KATALOGU ==="
+
+    read -p "Podaj katalog: " KAT
+
+    if [ -d "$KAT" ] && [ -r "$KAT" ]; then
+
+        PLIKI=$(find "$KAT" -maxdepth 1 -type f | wc -l)
+        KATALOGI=$(find "$KAT" -maxdepth 1 -type d | wc -l)
+
+        KATALOGI=$((KATALOGI - 1))
+
+        echo "Pliki zwykłe: $PLIKI"
+        echo "Katalogi: $KATALOGI"
+
+    else
+        echo "To nie jest czytelny katalog"
+    fi
+    ;;
+
+*)
+    echo "Niepoprawny wybór"
+    ;;
+esac
