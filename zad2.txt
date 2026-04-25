@@ -1,0 +1,70 @@
+link do repozytorium - https://github.com/NeyoOfficial/SO_2025_Soborak.git
+
+#!/bin/bash
+
+echo "======================================"
+echo "1) SPRAWDZANIE TYPU PLIKU"
+echo "======================================"
+
+read -p "Podaj nazwę pliku: " PLIK
+
+if [ ! -e "$PLIK" ]; then
+    echo "Plik nie istnieje"
+elif [ -d "$PLIK" ]; then
+    echo "Plik istnieje i jest katalogiem"
+elif [ -f "$PLIK" ]; then
+    echo "Plik istnieje i jest plikiem zwykłym"
+else
+    echo "Plik istnieje, ale nie jest ani katalogiem ani zwykłym plikiem"
+fi
+
+
+echo ""
+echo "======================================"
+echo "2) WYŚWIETLENIE ZAWARTOŚCI PLIKU"
+echo "======================================"
+
+read -p "Podaj nazwę pliku: " PLIK2
+
+if [ ! -e "$PLIK2" ]; then
+    echo "Zbiór nie istnieje"
+elif [ -f "$PLIK2" ]; then
+    echo "To plik zwykły"
+    if [ -r "$PLIK2" ]; then
+        echo "Plik można czytać. Zawartość:"
+        cat "$PLIK2"
+    else
+        echo "Brak prawa do odczytu"
+    fi
+elif [ -d "$PLIK2" ]; then
+    echo "To katalog"
+    if [ -r "$PLIK2" ]; then
+        echo "Zawartość katalogu:"
+        ls "$PLIK2"
+    else
+        echo "Brak prawa do odczytu katalogu"
+    fi
+else
+    echo "Nieznany typ zbioru"
+fi
+
+
+echo ""
+echo "======================================"
+echo "3) URUCHAMIANIE PLIKU"
+echo "======================================"
+
+read -p "Podaj nazwę pliku do uruchomienia: " PLIK3
+
+if [ -f "$PLIK3" ]; then
+    if [ -x "$PLIK3" ]; then
+        echo "Plik jest wykonywalny. Uruchamiam..."
+        ./"$PLIK3"
+        EXIT_CODE=$?
+        echo "Kod wyjścia programu: $EXIT_CODE"
+    else
+        echo "Plik nie ma prawa wykonywania"
+    fi
+else
+    echo "To nie jest zwykły plik"
+fi
