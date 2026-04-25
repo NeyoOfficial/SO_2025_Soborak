@@ -1,0 +1,47 @@
+link do repozytorium - https://github.com/NeyoOfficial/SO_2025_Soborak.git
+
+#!/bin/bash
+
+DZIENNIK="dziennik.txt"
+
+echo "======================================"
+echo "DZIENNIK - SYSTEM LOGÓW"
+echo "======================================"
+echo "1) Dodaj wpis"
+echo "2) Pokaż wpisy z dnia"
+echo "======================================"
+
+read -p "Wybierz opcję (1-2): " OPCJA
+
+case "$OPCJA" in
+
+1)
+    echo ""
+    read -p "Wpis do dziennika: " TEKST
+
+    DATA=$(date +"%Y-%m-%d")
+
+    echo "[$DATA] $TEKST" >> "$DZIENNIK"
+
+    echo "Dodano wpis do dziennika."
+    ;;
+
+2)
+    echo ""
+    read -p "Podaj datę (YYYY-MM-DD): " DATA
+
+    echo ""
+    echo "Wpisy z dnia $DATA:"
+    echo "--------------------------------------"
+
+    if [ -f "$DZIENNIK" ]; then
+        grep "^\[$DATA\]" "$DZIENNIK"
+    else
+        echo "Brak dziennika."
+    fi
+    ;;
+
+*)
+    echo "Niepoprawna opcja"
+    ;;
+esac
