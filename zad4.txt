@@ -1,0 +1,62 @@
+link do repozytorium - https://github.com/NeyoOfficial/SO_2025_Soborak.git
+
+#!/bin/bash
+
+TRASH="$HOME/trash"
+
+echo "======================================"
+echo "BEZPIECZNE USUWANIE (srm.sh)"
+echo "======================================"
+
+# 1. Tworzenie folderu trash jeśli nie istnieje
+if [ ! -d "$TRASH" ]; then
+    mkdir -p "$TRASH"
+    echo "Utworzono katalog: $TRASH"
+fi
+
+
+# 2. Sprzątanie plików starszych niż 1 dzień
+echo ""
+echo "Sprzątanie kosza (pliki starsze niż 1 dzień)..."
+
+find "$TRASH" -type f -mtime +1 -exec rm -f {} \;
+
+echo "Sprzątanie zakończone."
+
+
+# 3. Sprawdzenie argumentów
+if [ $# -eq 0 ]; then
+    echo ""
+    echo "Użycie: $0 plik1 plik2 ..."
+    exit 1
+fi
+
+
+# 4. Przetwarzanie plików
+echo ""
+echo "Przenoszenie plików do kosza..."
+
+for FILE in "$@"
+do
+    if [ -f "$FILE" ]; then
+
+        # nazwa pliku + kompresja
+        BASENAME=$(basename "$FILE")
+        ARCHIVE="${BASENAME}_$(date +%Y%m%d%H%M%S).gz"
+
+        gzip -c "$FILE" > "$TRASH/$ARCHIVE"
+
+        if [ $? -eq 0 ]; then
+            rm -f "$FILE"
+            echo "Przeniesiono i skompresowano: $FILE -> $TRASH/$ARCHIVE"
+        else
+            echo "Błąd kompresji: $FILE"
+        fi
+
+    else
+        echo "Pomijam (nie istnieje lub nie jest plikiem): $FILE"
+    fi
+done
+
+echo ""
+echo "Gotowe."
