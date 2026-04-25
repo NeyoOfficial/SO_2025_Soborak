@@ -1,0 +1,64 @@
+link do repozytorium - https://github.com/NeyoOfficial/SO_2025_Soborak.git
+
+#!/bin/bash
+
+echo "======================================"
+echo "SKRYPT BACKUP + CRON (JEDEN PLIK)"
+echo "======================================"
+
+BACKUP_DIR="./BACKUP"
+
+echo ""
+echo "1) BACKUP plików z przyrostkiem ~"
+echo "--------------------------------------"
+
+# sprawdzenie czy BACKUP istnieje i czy jest katalogiem
+if [ -e "$BACKUP_DIR" ] && [ ! -d "$BACKUP_DIR" ]; then
+    echo "BŁĄD: BACKUP istnieje, ale NIE jest katalogiem!"
+    exit 1
+fi
+
+# tworzenie katalogu BACKUP jeśli nie istnieje
+if [ ! -d "$BACKUP_DIR" ]; then
+    mkdir "$BACKUP_DIR"
+    echo "Utworzono katalog BACKUP"
+fi
+
+FOUND=0
+
+for FILE in *~; do
+    if [ -f "$FILE" ]; then
+        cp "$FILE" "$BACKUP_DIR/"
+        echo "Skopiowano: $FILE -> BACKUP/"
+        FOUND=1
+    fi
+done
+
+if [ $FOUND -eq 0 ]; then
+    echo "Brak plików ~ do backupu"
+fi
+
+
+echo ""
+echo "======================================"
+echo "4) INFORMACJE O CRON (DO SPRAWOZDANIA)"
+echo "======================================"
+
+echo ""
+echo "# CRON - uruchamianie skryptu backup"
+echo ""
+echo "# co 15 minut:"
+echo "*/15 * * * * /sciezka/do/zadania_backup.sh"
+echo ""
+echo "# każdego dnia 5 minut po północy:"
+echo "5 0 * * * /sciezka/do/zadania_backup.sh"
+echo ""
+echo "# w każdy piątek o 23:00:"
+echo "0 23 * * 5 /sciezka/do/zadania_backup.sh"
+echo ""
+echo "# raz w miesiącu (1 dzień miesiąca):"
+echo "0 0 1 * * /sciezka/do/zadania_backup.sh"
+echo ""
+echo "======================================"
+echo "KONIEC"
+echo "======================================"
