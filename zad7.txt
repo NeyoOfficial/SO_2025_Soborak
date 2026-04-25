@@ -1,0 +1,44 @@
+https://github.com/NeyoOfficial/SO_2025_Soborak.git
+
+#!/bin/bash
+
+while true
+do
+    CHOICE=$(dialog --clear --title "MENU SYSTEMOWE" \
+    --menu "Wybierz opcję:" 12 50 3 \
+    1 "Aktualna data" \
+    2 "Czas pracy systemu (uptime)" \
+    3 "Liczba zalogowanych użytkowników" \
+    4 "Wyjście" \
+    3>&1 1>&2 2>&3)
+
+    clear
+
+    case $CHOICE in
+
+    1)
+        DATA=$(date)
+        dialog --msgbox "Aktualna data:\n\n$DATA" 7 50
+        ;;
+
+    2)
+        UPTIME=$(uptime -p)
+        dialog --msgbox "Czas pracy systemu:\n\n$UPTIME" 7 50
+        ;;
+
+    3)
+        USERS=$(who | wc -l)
+        dialog --msgbox "Liczba zalogowanych użytkowników:\n\n$USERS" 7 50
+        ;;
+
+    4)
+        clear
+        exit 0
+        ;;
+
+    *)
+        dialog --msgbox "Niepoprawny wybór" 6 40
+        ;;
+    esac
+
+done
