@@ -1,0 +1,64 @@
+link do repozytorium - https://github.com/NeyoOfficial/SO_2025_Soborak.git
+
+#!/bin/bash
+
+echo "=============================="
+echo "1) ZMIENNA IMIE + EXPORT"
+echo "=============================="
+
+IMIE="Jan"   # wpisz swoje imię
+echo "Moje imię: $IMIE"
+
+export IMIE
+echo "Zmienna IMIE została wyeksportowana."
+
+
+echo ""
+echo "=============================="
+echo "2) ZMIENNE ŚRODOWISKOWE"
+echo "=============================="
+
+echo "Sprawdzanie wybranych zmiennych:"
+echo "IMIE = $IMIE"
+echo "PS1 = $PS1"
+echo "PATH = $PATH"
+echo "SHELL = $SHELL"
+
+echo ""
+echo "Czy IMIE jest w środowisku?"
+printenv | grep IMIE
+
+
+echo ""
+echo "=============================="
+echo "3) ZMIANA PS1 (TYMCZASOWA)"
+echo "=============================="
+
+echo "Zmieniam PS1 tylko w tym skrypcie..."
+
+PS1="MOJ_PROMPT> "
+echo "Nowy PS1: $PS1"
+
+
+echo ""
+echo "=============================="
+echo "4) DODAWANIE DWÓCH ARGUMENTÓW"
+echo "=============================="
+
+if [ $# -ne 2 ]; then
+    echo "Błąd: podaj dokładnie 2 liczby!"
+    echo "Przykład: ./zadania.sh 2 3"
+    exit 1
+fi
+
+A=$1
+B=$2
+
+SUMA=$((A + B))
+
+echo "Pierwsza liczba: $A"
+echo "Druga liczba: $B"
+echo "Wynik dodawania: $SUMA"
+
+chmod +x zadania.sh
+./zadania.sh 2 3
